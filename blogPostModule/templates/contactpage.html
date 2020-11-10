@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+{% load static%}
+
+{%block content%}
+
+    <div class="container mb-0 pb-0" id="contactform">
+      <h2 class="text-center pt-5 pb-4">
+        Want to contact us
+      </h2>
+      <div class="container w-75">
+        <form action="{% url 'blog_module:contactPg' %}" method='POST' class="form-group">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-sm-12 col-lg-6">
+              {{ contactForm.firstName.label_tag}}<br>
+              {{ contactForm.firstName }}
+            </div>
+            <div class="col-sm-12 col-lg-6">
+              {{ contactForm.lastName.label_tag}}<br>
+              {{ contactForm.lastName }}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-lg-12 col-sm-12">
+              {{ contactForm.Uemail.label_tag}}<br>
+              {{ contactForm.Uemail }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-lg-12">
+              {{ contactForm.Reason.label_tag}}<br>
+              {{ contactForm.Reason }}
+            </div>
+          </div>
+
+          <div class="row pt-3 pb-4">
+            <div class="col-sm-12 col-lg-12 text-center justify-content-center align-self-center" >
+              <button class="btn btn-lg btn-outline-dark" name='contactForm' value='contact'>Submit</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="container-fluid justify-content-center align-self-center text-center p-0 mb-0" style="background-color:#d7d7d7;">
+      
+      <h1 class="pt-5 justify-content-center align-self-center">
+        Don't want to miss an article
+      </h1>
+      <p>if u dont want to miss any of my content? Subscribe to my newsletter!</p>
+        <div  class="container">
+          <form class="form-group p-0 m-0" action="{% url 'blog_module:contactPg' %}" method='POST'>
+            <div class="row text-center justify-content-center align-self-center p-3">
+              {% csrf_token %}  
+              <input type="email" class="form-control align-self-center col-sm-4" placeholder="Your email id" name='emailId' id='emailid'>
+            </div>
+            <div class="row text-center justify-content-center align-self-center pb-4">
+                <button type="submit" class="btn btn-lg btn-outline-dark" name='SubscribePOST' value='subscribe post'>Subscribe</button>
+            </div>
+        </form>
+      </div>        
+    </div>
+    
+
+    {%endblock%}

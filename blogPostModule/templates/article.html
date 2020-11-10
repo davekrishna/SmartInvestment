@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'Blogmodule/css/style.css' %}">
+       <script src="{% static 'Blogmodule/js/script.js' %}"></script>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css" integrity="sha512-kJ30H6g4NGhWopgdseRb8wTsyllFUYIx3hiUwmGAkgA9B/JbzUBDQVr2VVlWGde6sdBVOG7oU8AL35ORDuMm8g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+        <title>Smart Investing</title>
+        <style>
+            #article{
+                position: relative;
+                margin-top: -100px; 
+                margin-bottom: 0px;
+                background-color: antiquewhite !important;
+                z-index:1;
+                
+            }
+        </style>
+    </head>
+<body>
+  {% if blogsObj %}
+    <div class="container-fluid w-100 p-0">
+        <img src="{{blogsObj.thumbnail.url}}" alt="" class="" style="width:100vw;max-width:100%;height:500px;opacity:50%" style="z-index: 0;">
+        <nav  id="menu" class="navbar navbar-expand-lg fixed-top navbar-light bg-transparent" id="navbar" style="background-color: transparent;">
+          <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="navbar-header">
+            <img src="{% static 'Blogmodule/img/logo4.jpeg' %}" class="align-top" style="width:40px;height:40px;">&nbsp<h2 class="navbar-brand align-align-baseline">Smart Investing</h2>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <li class="nav-item btn btn -lg navbar-btn ml-lg-3 ml-5 mr-5">
+                <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:homepg' %}">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item btn btn-lg navbar-btn ml-lg-3 ml-5 mr-5">
+                <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:articleListPg' %}">Articles</a>
+              </li>
+              <li class="nav-item btn btn-lg navbar-btn ml-lg-3 ml-5 mr-5">
+                <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:contactPg' %}">Contact </a>
+              </li>
+              <li class="nav-item btn btn-lg navbar-btn btn-outline-light ml-lg-3 ml-5 mr-5">
+                <a class="nav-link" role="button" data-toggle="modal" data-target="#subscribeLINK">Subscribe</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+     <!-- modal subscribe -->
+     <div class="modal fade" id="subscribeLINK" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title">Dont want to miss out!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body">
+          <form method="POST" action="{% url 'blog_module:homepg' %}">
+                  {% csrf_token %} 
+                 <input type="email" class="form-control align-self-center" placeholder="Your email id" name='emailId' id='emailid'>
+                 <br><hr>
+              <div class="text-center">         
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary"  name='SubscribePOST' value='subscribe post'>Subscribe</button>
+              </div>
+          </form>
+          </div>     
+      </div>
+      </div>
+  </div>
+  
+    <div class="container pb-0 mb-0" id="article">
+        <h1>{{blogsObj.Title|safe}}</h1>
+        <div class="container-fluid">
+          {{blogsObj.Content|safe}}
+        </div>    
+    </div>
+
+    <div class="container-fluid pt-5 pb-0 mb-0" style="background-color:#dedede">
+      
+      <div class="container justify-content-center align-self-center text-center">
+      <h1 class="pt-5 justify-content-center align-self-center">LEAVE A COMMENT</h1>
+        <div  class="container">
+          <form method="POST" action="{% url 'blog_module:articlePg' blogsObj.Title %}">
+            {% csrf_token %}
+            {% for field in CommentForm  %}
+            <div class="row text-center justify-content-center align-self-center p-2">
+            
+              {{ field.errors }}
+              {{ field }} <br/>
+              
+            </div>
+            {% endfor %}
+            <input type="hidden" value="{{blogsObj.id}}" name="blogid">
+          {% for message in messages %}
+            <h3 style="color:black">
+            {{message}}
+            </h3>
+          {% endfor%}
+          <div class="row text-center justify-content-center align-self-center pb-4">
+              <button type="submit" name='savecomment' value='save comment' class="btn btn-lg btn-outline-dark">Comment</button>
+          </div>
+        </div>
+      </form>
+      </div>
+
+
+      <div class="container w-50 mb-0 pt-3 pb-3">
+        <div class="conatiner-fluid w-100">
+          {% if comments%}
+            {% for comment in comments %}  
+                <div class="container" id="{{comment.id}}">
+                  <h4>{{comment.commentByName}}</h4>
+                  <h5>{{comment.TimeOfComment}}</h5>
+                  <p>{{comment.comment}}</p>
+                  <form method='POST' action="{% url 'blog_module:articlePg' blogsObj.Title %}">
+                    {% csrf_token %}
+                    <input type="hidden" name='id' value='{{comment.id}}'>
+                    <input type="hidden" name='blogid' value='{{blogsObj.id}}'>
+                    <button type='submit' name='likecomment' value='like comment' class="btn btn-lg p-0 m-0"><i class="far fa-thumbs-up" ></i><span id="likes">  </span>{{comment.likes}} likes</button>
+                    <button type='submit' name='dislikecomment' value='dislike comment' class="btn btn-lg p-0 m-0"><i class="far fa-thumbs-down"></i><span id="likes">  </span>{{comment.dislikes}} dislikes</button>
+                    <button type='button' class="btn btn-lg p-0 m-0" onclick="addreply('{{comment.id}}')"><i class="fas fa-reply"></i><span id="Reply">  </span> reply</button>
+                    </form>
+                </div>   
+ 
+                <div class="container pl-5 pt-2">
+                  {% for reply in replys %}
+                      {% if reply.ForComment.id == comment.id %}
+                        <div class="container">
+                          <h4>{{reply.ReplyByName}}</h4>
+                          <h5>{{reply.TimeOfReply}}</h5>
+                          <p>{{reply.reply}}</p>
+                          <form method='POST' action="{% url 'blog_module:articlePg' blogsObj.Title %}">
+                            {% csrf_token %}
+                            <input type="hidden" name='id' value='{{reply.id}}'>
+                            <input type="hidden" name='blogid' value='{{blogsObj.id}}'>
+                            <button type='submit' name='likereply' value='like reply' class="btn btn-lg p-0 m-0"><i class="far fa-thumbs-up" ></i><span id="likes">  </span>{{reply.likes}} likes</button>
+                            <button type='submit' name='dislikereply' value='dislike reply' class="btn btn-lg p-0 m-0"><span id="likes"><i class="far fa-thumbs-down"></i> </span>{{reply.dislikes}} dislikes</button>
+                            </form>
+                        </div> 
+                      {% endif%}
+                  {% endfor %}
+                </div>     
+                <hr>
+
+                
+            {%  endfor %}
+
+          {% else %}
+                <div class="container">
+                  <p> no comments yet</p>
+                </div>
+          {% endif %}    
+        </div>
+        
+      </div>
+    </div>
+    {% endif %}
+
+    <div id='subscribeDiv' class="container-fluid justify-content-center align-self-center text-center p-0 mb-0" style="background-color:#d7d7d7;">  
+      <h1 class="pt-5 justify-content-center align-self-center">
+        Don't want to miss an article
+      </h1>
+      <p>if u dont want to miss any of my content? Subscribe to my newsletter!</p>
+        <div  class="container">
+          <form class="form-group p-0 m-0" action="{% url 'blog_module:articlePg' blogsObj.Title%}" method='POST'>
+            <div class="row text-center justify-content-center align-self-center p-3">
+              {% csrf_token %}  
+              <input type="email" class="form-control align-self-center col-sm-4" placeholder="Your email id" name='emailId'>
+              <input type="hidden" name='blogid' value='{{blogsObj.id}}'>
+            </div>
+            <div class="row text-center justify-content-center align-self-center pb-4">
+                <button type="submit" class="btn btn-lg btn-outline-dark" name='SubscribePOST' value='subscribe post'>Subscribe</button>
+            </div>
+        </form>
+      </div>        
+    </div>
+    
+    <div class="container-fluid" style="height:100px">
+      <div class="row h-100 justify-content-between">
+        <div class="col-md-push-4 my-auto order-2 order-lg-1 col-md-6 col-sm-12 text-center text-md-left p-2">
+          <i class="fa fa-facebook fa-2x p-2"></i>
+          <i class="fa fa-twitter fa-2x p-2"></i>
+          <i class="fa fa-github fa-2x p-2"></i>
+          <i class="fa fa-pinterest fa-2x p-2"></i>
+          <i class="fa fa-linkedin fa-2x p-2"></i>
+        </div>
+        <div class="col-md-pull-8 my-auto order-1 order-lg-2 p-2 mr-3">    
+            <a href="{% url 'blog_module:articleListPg' %}" class="btn btn-lg col-sm-3 col-md-auto text-center" role="button" >Articles</a>
+            <a href="{% url 'blog_module:contactPg' %}" class="btn btn-lg col-sm-3 col-md-auto text-center"role="button" >Contact</a>
+            <a class="btn btn-lg col-sm-3 col-md-auto text-center" role="button" data-toggle="modal" data-target="#subscribeLINK">Subscribe</a>    
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="container" style='display:none'>
+      <form id='replyformtemp' method='POST' action=''>
+          {% csrf_token %}
+          {% for field in ReplyForm  %}
+            <div class="row text-center justify-content-center align-self-center p-2">
+              {{ field.errors }}
+              {{ field }} <br/>  
+            </div>
+            {% endfor %}
+            {% for message in messages %}
+            <h3 style="color:black">
+            {{message}}
+            </h3>
+          {% endfor%}
+          <input type="hidden" name='commentid' id='#commentIdVal'>
+          <input type="hidden" name='blogid' id='#blogIdVal' value='{{blogsObj.id}}'>
+      </form>
+    </div>
+      <script>
+        function addreply(id){
+          console.log('reply to be added for id '+id)
+          var divnode=document.getElementById(id)
+          
+          var A_Divnode=document.createElement('DIV')
+          A_Divnode.setAttribute("class",'container w-100 pb-3')
+          divnode.appendChild(A_Divnode)
+          
+          var formnode=document.createElement('FORM')
+          formnode.setAttribute('id',"replyfor"+id)
+          formnode.setAttribute('method','POST')
+          formnode.setAttribute('action',"{% url 'blog_module:articlePg' blogsObj.Title %}")
+          A_Divnode.appendChild(formnode)
+        
+          document.getElementById('#commentIdVal').value=id
+          document.getElementById("replyfor"+id).innerHTML=document.getElementById('replyformtemp').innerHTML
+
+          var button = document.createElement('BUTTON')
+          button.setAttribute('type','submit')
+          button.setAttribute('name','savereply')
+          button.setAttribute('value','save reply')
+          button.setAttribute('class','btn btn-secondary float-left')
+          button.textContent='Submit'
+          formnode.appendChild(button)
+
+          formnode.appendChild(document.createElement('BR'))
+          console.log(id)
+      }
+      </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+.navbar-nav  .btn .nav-link {
+    color:black;
+    font-size:20px;
+    font-weight: bold;
+}
+
+.navbar-nav  .btn .nav-link:hover {
+    font-weight: bold;
+    animation:animate__zoomIn;
+}
+.fixed-top.scrolled {
+  background-color: #fff !important;
+  transition: background-color 200ms linear;
+}
+.box{
+  border: 1px solid #ccc;
+}
+.box:hover {
+  box-shadow: 0 0 40px rgba(32, 32, 32, 0.401); 
+}
+.btn{
+  color:black;
+    font-size:20px;
+}
+.navbar{
+  transition:1s;
+}
+.navbar .scrolled{
+  background-color: #d7d7d7;
+}
+
+#linksWithUnderline{
+  position: relative;
+color: #000;
+text-decoration: none;
+}
+#linksWithUnderline:hover{
+  color: #000;
+}
+#linksWithUnderline::before{
+  content: "";
+position: absolute;
+width: 100%;
+height: 2px;
+bottom: 0;
+left: 0;
+background-color: #000;
+visibility: hidden;
+transform: scaleX(0);
+transition: all 0.3s ease-in-out 0s;
+}
+#linksWithUnderline:hover::before{
+  visibility: visible;
+transform: scaleX(1);
+}
+

@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'Blogmodule/js/script.js' %}"></script>
+    <script src="{% static 'Blogmodule/js/script2.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'Blogmodule/css/style.css' %}">
+  
+    <title>Smart Investing</title>
+</head>
+    <body>
+        <div class="container-fluid w-100 p-0">
+                <img src="{% static 'Blogmodule/img/img3a.jpeg' %}" alt="" class="" style="width:100vw;max-width:100%;height:500px">
+                <nav  id="menu" class="navbar navbar-expand-sm fixed-top navbar-light bg-transparent" id="navbar" style="background-color: transparent;">
+                  <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-header">
+                  <img src="{% static 'Blogmodule/img/logo4.jpeg' %}" class="align-top" style="width:40px;height:40px;">&nbsp<h2 class="navbar-brand align-align-baseline">Smart Investing</h2>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                  <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item btn btn -lg navbar-btn ml-lg-3 ml-5 mr-5">
+                      <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:homepg' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item btn btn-lg navbar-btn ml-lg-3 ml-5 mr-5">
+                      <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:articleListPg' %}">Articles</a>
+                    </li>
+                    <li class="nav-item btn btn-lg navbar-btn ml-lg-3 ml-5 mr-5">
+                      <a id="linksWithUnderline" class="nav-link" href="{% url 'blog_module:contactPg' %}">Contact </a>
+                    </li>
+                    <li class="nav-item btn btn-lg navbar-btn btn-outline-light ml-lg-3 ml-5 mr-5">
+                      <a class="nav-link" role="button" data-toggle="modal" data-target="#subscribeLINK">Subscribe</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+        </div>
+    
+            <!-- modal subscribe -->
+        <div class="modal fade" id="subscribeLINK" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title">Dont want to miss out!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body">
+              <form method="POST" action="{% url 'blog_module:homepg' %}">
+                      {% csrf_token %} 
+                     <input type="email" class="form-control align-self-center" placeholder="Your email id" name='emailId' id='emailid'>
+                     <br><hr>
+                  <div class="text-center">         
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary"  name='SubscribePOST' value='subscribe post'>Subscribe</button>
+                  </div>
+              </form>
+              </div>     
+          </div>
+          </div>
+      </div>
+
+        {% block content %}
+      <div class="container-fluid" style="width:auto;background-color:#EFEFEF;max-width:100%;height:auto;">
+        <div class="container-fluid pb-5">
+          <h1 class="text-center p-5">Latest Articles</h1>
+ 
+          <div class="container pb-5">
+              {% if blogsObj %}
+              <div class="row card-deck">
+                {% for blog in blogsObj|slice:"3"%}
+                <div class="card p-0 col-sm-4 box" style="border-radius:15px;">
+                  <div class="rounded">
+                    {% if blog.thumbnail %}
+                    <img class="card-img-top embed-responsive" style="border-radius: 15px 15px 0px 0px;" src="{{blog.thumbnail.url}}">
+                    {% endif %}
+                  </div>
+                  <div class="card-text text-center">
+                    <span class="date">Published on: {{blog.publishdate|date:"DATE_FORMAT"}}</span>
+                    <h2>{{blog.Title|safe}}</h2>
+                    <p>{{blog.Content|safe|truncatewords_html:"15"}}</p>
+                  </div>
+                  <div class="card-footer">
+                    <button class="btn btn-block">Read more....</button>
+                  </div>
+                </div>
+                    {% endfor %}
+                  {% endif %}
+              </div>     
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid" >
+        <div class="row p-0">
+          <div class="col-md-5 col-sm-12 p-0">
+            <img src="{% static 'Blogmodule/img/photo.jpg' %}" alt="" class="w-100 p-0" style="height: 600px;">
+          </div>
+          <div class="col-md-7 col-sm-12 p-0 justify-content-center align-self-center text-center">
+            <h1 class="p-5 justify-content-center align-self-center">
+              About
+            </h1>
+            <p class="p-5 justify-content-center align-self-center">
+              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups.
+            </p>
+          </div>
+        </div>
+      </div>    
+      
+      <div id='subscribeLINK' class="container-fluid justify-content-center align-self-center text-center p-0 mb-0" style="background-color:#d7d7d7;">
+        <h1 class="pt-5 justify-content-center align-self-center">
+          Don't want to miss an article
+        </h1>
+        <p>if u dont want to miss any of my content? Subscribe to my newsletter!</p>
+          <div  class="container">
+            <form class="form-group p-0 m-0" action="{% url 'blog_module:homepg' %}" method='POST'>
+              <div class="row text-center justify-content-center align-self-center p-3">
+                {% csrf_token %}  
+                <input type="email" class="form-control align-self-center col-sm-4" placeholder="Your email id" name='emailId' id='emailid'>
+              </div>
+              <div class="row text-center justify-content-center align-self-center pb-4">
+                  <button type="submit" class="btn btn-lg btn-outline-dark" name='SubscribePOST' value='subscribe post'>Subscribe</button>
+              </div>
+          </form>
+        </div>        
+      </div>
+
+      {% endblock %}
+      <div class="container-fluid" style="height:100px">
+        <div class="row h-100 justify-content-between">
+          <div class="col-md-push-4 my-auto order-2 order-lg-1 col-md-6 col-sm-12 text-center text-md-left p-2">
+            <i class="fa fa-facebook fa-2x p-2"></i>
+            <i class="fa fa-twitter fa-2x p-2"></i>
+            <i class="fa fa-github fa-2x p-2"></i>
+            <i class="fa fa-pinterest fa-2x p-2"></i>
+            <i class="fa fa-linkedin fa-2x p-2"></i>
+          </div>
+          <div class="col-md-pull-8 my-auto order-1 order-lg-2 p-2 mr-3">    
+              <a href="{% url 'blog_module:articleListPg' %}" class="btn btn-lg col-sm-3 col-md-auto text-center" role="button" >Articles</a>
+              <a href="{% url 'blog_module:contactPg' %}" class="btn btn-lg col-sm-3 col-md-auto text-center"role="button" >Contact</a>
+              <a class="btn btn-lg col-sm-3 col-md-auto text-center" role="button" data-toggle="modal" data-target="#subscribeLINK">Subscribe</a>    
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>

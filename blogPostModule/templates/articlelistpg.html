@@ -1,0 +1,54 @@
+{% extends 'home.html' %}
+{% load static%}
+
+{%block content%}
+
+    <div class="container mt-5">
+      {% if blogsObj %}
+      <div class="row card-deck" style="height:auto">
+        {% for blog in blogsObj %}
+        {% if forloop.counter0|divisibleby:3 %} <div class="row text-center"> {%  endif %}
+        <div class="card p-0 col-sm-4 box" style="border-radius:15px;height:auto">
+          <div class="rounded">
+            {% if blog.thumbnail %}
+            <img class="card-img-top embed-responsive" style="border-radius: 15px 15px 0px 0px;" src="{{blog.thumbnail.url}}">
+            {% endif %}
+          </div>
+          <div class="card-text text-center">
+            <span class="date">Published on: {{blog.publishdate|date:"DATE_FORMAT"}}</span>
+            <h2>{{blog.Title|safe}}</h2>
+            <p>{{blog.Content|safe|truncatewords_html:"15"}}</p>
+          </div>
+          <div class="card-footer" style="height:auto">
+            <form method="POST" action="{% url 'blog_module:articleListPg' %}">
+              {% csrf_token %}
+              <input type="hidden" name="blogid" value={{blog.id}}>
+            <button type="submit" class="btn btn-block">Read more....</button>
+            </form>
+          </div>
+        </div>
+        {%  if forloop.counter|divisibleby:3 or forloop.last %}</div><!-- row closing --><hr>{%  endif %}
+            {% endfor%}
+          {% endif %}
+      </div>     
+  </div>
+
+  <div class="container-fluid justify-content-center align-self-center text-center p-0 mb-0" style="background-color:#d7d7d7;">
+      
+    <h1 class="pt-5 justify-content-center align-self-center">
+      Don't want to miss an article
+    </h1>
+    <p>if u dont want to miss any of my content? Subscribe to my newsletter!</p>
+      <div  class="container">
+        <form class="form-group p-0 m-0" action="{% url 'blog_module:articleListPg' %}" method='POST'>
+          <div class="row text-center justify-content-center align-self-center p-3">
+            {% csrf_token %}  
+            <input type="email" class="form-control align-self-center col-sm-4" placeholder="Your email id" name='emailId' id='emailid'>
+          </div>
+          <div class="row text-center justify-content-center align-self-center pb-4">
+              <button type="submit" class="btn btn-lg btn-outline-dark" name='SubscribePOST' value='subscribe post'>Subscribe</button>
+          </div>
+      </form>
+    </div>        
+  </div>
+  {%endblock%}

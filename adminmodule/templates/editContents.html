@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css" integrity="sha512-kJ30H6g4NGhWopgdseRb8wTsyllFUYIx3hiUwmGAkgA9B/JbzUBDQVr2VVlWGde6sdBVOG7oU8AL35ORDuMm8g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        p:empty:not(:focus)::before {
+            content: attr(data-placeholder);
+            color:darkgray;
+          }
+        
+        #blog_Title{
+            font-size: 40px;
+        }
+    </style>
+    <title>Dave</title></head>
+<body>
+    <div class="container">
+        <form id="myForm" method="POST" action="{% url 'admin_module:addPostPage' %}">
+            {% csrf_token %}
+            {{form.as_p}}
+        </form>
+    </div>
+    
+    <div class="container">
+        <button class="btn btn-lg"  onclick="addcontent()">
+            Add Contents
+        </button>
+    </div>
+    <br><hr>
+    <div class="btn-group">
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="undoFunct()"><i class="fas fa-undo-alt"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="redoFunct()"><i class="fas fa-redo-alt"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="alignRight()"><i class="fa fa-align-right"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="alignLeft()"><i class="fa fa-align-left"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="justifyContent()"><i class="fa fa-align-justify"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="alignCenter()"><i class="fa fa-align-center"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="makeBold()"><i class="fa fa-bold"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="makeItalic()"><i class="fa fa-italic"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="Underline()"><i class="fa fa-underline"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="LinkSelection()"><i class='fa fa-link'></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="unLinkSelection()"><i class="fas fa-unlink"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="createSubscript()"><i class="fa fa-subscript"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="createSuperscript()"><i class="fa fa-superscript"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="Cut()"><i class="fa fa-cut"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="addParagraph()"><i class="fas fa-paragraph"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="addImage()"><i class="far fa-file-image"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="highlightContent()"><i class="fas fa-highlighter"></i></button>
+        <button type="button" class="btn btn-light border-dark rounded mr-1" onclick="deleteContent()"><i class="fas fa-trash"></i></button>
+    </div>
+    <br><hr>
+    
+    <div id="post" class="pl-2" contenteditable >
+        <p class="w-auto h-75" data-placeholder="Tell your story here...." style="border:none;border-style:none;outline:none">
+        </p>
+    </div>
+    <script src="{% static 'modAdmin/js/editor.js' %}"></script>
+    <script>
+        var initialContents=document.getElementById('contents').value
+        document.getElementById('post').innerHTML=initialContents
+    
+        function addcontent()
+    {
+        var content= $('#post').html()
+        document.getElementById('contents').value=content
+        document.getElementById("myForm").submit();
+    }
+    </script>
+</body>
+</html>
