@@ -7,5 +7,5 @@ For more information on this file, see
 https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 
-from whitenoise.django import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
+from whitenoise import WhiteNoise
+application = WhiteNoise(application)
