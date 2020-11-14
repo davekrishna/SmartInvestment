@@ -77,14 +77,12 @@ WSGI_APPLICATION = 'rahulblog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+import dj_database_url
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rahulBlogDB',
-        'USER':'postgres',
-        'PASSWORD':'krii@',
-        'HOST':'localhost'
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
     }
 }
 
