@@ -80,10 +80,9 @@ WSGI_APPLICATION = 'rahulblog.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL')
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
