@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','*9grdljjh&b74^it-x98qd99g#8p=e&
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['si-rahul-01.herokuapp.com']
+ALLOWED_HOSTS = ['si-rahul-01.herokuapp.com','.localhost', '127.0.0.1']
 
 
 # Application definition
@@ -77,17 +77,22 @@ WSGI_APPLICATION = 'rahulblog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-# import dj_database_url
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL')
-#     )
-# }
+
 import dj_database_url
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'rahulBlogDB',
+#         'USER':'postgres',
+#         'PASSWORD':'krii@',
+#         'HOST':'localhost'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

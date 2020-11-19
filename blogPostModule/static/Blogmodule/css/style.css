@@ -4,6 +4,17 @@
     font-weight: bold;
 }
 
+.btn-outline-light{
+  border-color:#222;
+}
+
+.btn-outline-light:hover{
+  
+  background-color:#ccc;
+  border-color:#222;
+  
+}
+
 .navbar-nav  .btn .nav-link:hover {
     font-weight: bold;
     animation:animate__zoomIn;
